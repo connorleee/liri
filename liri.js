@@ -7,9 +7,10 @@ const Spotify = require('node-spotify-api'); /* accesses spotify RESTful package
 const moment = require("moment") /* accesses moment package for time */
 const spotify = new Spotify(keys.spotify); /* references user's unique spotify's keys  */
 const omdb = keys.omdb; /* references user's unique omdb keys */
+const bands = keys.bandsintown; /* reaferences user's unique bandsintown keys */
 
-const action = process.argv[2];
-const request = process.argv.slice(3).join(" ");
+const action = process.argv[2]; /* type of liri search */
+const request = process.argv.slice(3).join(" "); /* actual search input */
 
 // Switch cases for each of the different inputs
 switch (action) {
@@ -32,7 +33,7 @@ switch (action) {
 function bandsintown(artist) {
     console.log("-------------\n")
 
-    var url = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp`;
+    var url = `https://rest.bandsintown.com/artists/${artist}/events?app_id=${bands.key}`;
 
     axios.get(url).then(
         function (response) {
