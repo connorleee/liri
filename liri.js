@@ -5,7 +5,7 @@ const keys = require("./keys.js");
 const axios = require("axios");
 const Spotify = require('node-spotify-api');
 
-var spotify = new Spotify(keys.spotify);
+const spotify = new Spotify(keys.spotify);
 
 const omdb = keys.omdb;
 
@@ -13,27 +13,55 @@ const omdb = keys.omdb;
 
 // Switch cases for each of the different inputs
 
-const input = process.argv.slice(2).join(" ")
+const action = process.argv[2]
+const request = process.argv.slice(3).join(" ")
 
-switch (input) {
+
+switch (action) {
     case "movie-this":
-        axios.get("http://www.omdbapi.com/?t=remember+the+titans&y=&plot=short&apikey=" + omdb.key).then(
+        let t = request
+        let url = `http://www.omdbapi.com/?apikey=${omdb.key}&t=${t}`
+
+        axios.get(url).then(
             function (response) {
-                // Then we print out the imdbRating
-                console.log("The movie's rating is: " + response.data.imdbRating);
+                // Movie title
+                console.log(`Movie title: ${response.data.Title}`);
+
+                // Release year
+                console.log(`Release year: ${response.data.Year}`)
+
+                // IMDB Rating of the movie.
+                console.log(`IMDb rating is: ${response.data.imdbRating}`);
+                
+                // Rotten Tomatoes Rating of the movie.
+                console.log(`Rotten Tomatoes rating is: ${response.data.Ratings[1].Value}`);
+
+                // Country where the movie was produced.
+                console.log(`Produced in: ${response.data.Country}`)
+
+                // Language of the movie.
+                console.log(`Language: ${response.data.Language}`)
+
+                // Plot of the movie.
+                console.log(`Plot: ${response.data.Plot}`)
+
+                // Actors in the movie.
+                console.log(`Actors: ${response.data.Actors}`)
             }
         );
         break;
 
-    default:
+
+
+    case "do-what-it-says":
         fs.readFile("random.txt", "utf8", function (error, data) {
             if (error) {
                 return console.log(error);
             };
 
             console.log(data)
-        })
-        break;
+        });
+
 }
 
 
