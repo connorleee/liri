@@ -28,6 +28,9 @@ switch (action) {
 
     case "do-what-it-says":
         txtRead();
+        break;
+    default:
+        console.log("This action is not supported")
 }
 
 function bandsintown(artist) {
